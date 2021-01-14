@@ -10,10 +10,12 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import TodoStore from '../stores/TodoStore';
+import { observer } from 'mobx-react';
 
+@observer
 class TodoEditFormView extends PureComponent {
   render() {
-    const { todo, onSetTodoProps } = this.props;
+    const { todo, onSetTodoProps, onAddTodo } = this.props;
 
     return (
       <form noValidate>
@@ -45,7 +47,12 @@ class TodoEditFormView extends PureComponent {
           </Grid>
         </Grid>
         <Grid item>
-          <Button variant='contained' color='primary' startIcon={<SaveIcon />}>
+          <Button
+            onClick={e => onAddTodo(todo)}
+            variant='contained'
+            color='primary'
+            startIcon={<SaveIcon />}
+          >
             Add
           </Button>
           &nbsp;&nbsp;
