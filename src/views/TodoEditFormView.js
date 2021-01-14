@@ -15,7 +15,7 @@ import { observer } from 'mobx-react';
 @observer
 class TodoEditFormView extends PureComponent {
   render() {
-    const { todo, onSetTodoProps, onAddTodo } = this.props;
+    const { todo, onSetTodoProps, onAddTodo, onUpdateTodo } = this.props;
 
     return (
       <form noValidate>
@@ -48,7 +48,7 @@ class TodoEditFormView extends PureComponent {
         </Grid>
         <Grid item>
           <Button
-            onClick={e => onAddTodo(todo)}
+            onClick={onAddTodo}
             variant='contained'
             color='primary'
             startIcon={<SaveIcon />}
@@ -60,6 +60,7 @@ class TodoEditFormView extends PureComponent {
             variant='contained'
             color='default'
             startIcon={<UpdateIcon />}
+            onClick={onUpdateTodo}
           >
             Update
           </Button>

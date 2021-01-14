@@ -6,12 +6,17 @@ import autobind from 'autobind-decorator';
 @autobind
 @observer
 class TodoListContainer extends Component {
+  onSelectedTodo(todo) {
+    this.props.todoStore.selectedTodo(todo);
+  }
+
   render() {
-    const { todoStore } = this.props;
+    const { todos } = this.props.todoStore;
     // console.log(1, todoStore.todos); //array
+
     return (
       <div>
-        <TodoListView todoItem={todoStore.todos} />
+        <TodoListView todos={todos} onSelectedTodo={this.onSelectedTodo} />
       </div>
     );
   }

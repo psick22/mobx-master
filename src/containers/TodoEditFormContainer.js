@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import TodoEditFormView from '../views/TodoEditFormView';
 import { inject, observer } from 'mobx-react';
 import autobind from 'autobind-decorator';
-import generatId from '../IDGenerator';
-// bind 뭔지 공부
+import generateId from '../IDGenerator';
 
 @inject('todoStore')
 @autobind
@@ -13,12 +12,13 @@ class TodoEditFormContainer extends Component {
     this.props.todoStore.setTodoProps(name, value);
   }
 
-  onAddTodo(todo) {
-    console.log(todo);
-    const newTodo = { ...todo, id: generatId(5) };
-    console.log(newTodo);
-
-    this.props.todoStore.addTodo(newTodo);
+  onAddTodo() {
+    let { todo } = this.props.todoStore;
+    todo = { ...todo, id: generateId(5) };
+    this.props.todoStore.addTodo(todo);
+  }
+  onUpdateTodo() {
+    this.props.todoStore.updateTodo();
   }
 
   render() {
@@ -29,6 +29,7 @@ class TodoEditFormContainer extends Component {
         todo={todoStore.todo}
         onSetTodoProps={this.onSetTodoProps}
         onAddTodo={this.onAddTodo}
+        onUpdateTodo={this.onUpdateTodo}
       />
     );
   }
