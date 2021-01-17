@@ -32,6 +32,7 @@ class TodoStore {
   @action
   addTodo(todo) {
     this._todos.push(todo);
+    this._todo = {};
   }
 
   @action
@@ -45,6 +46,7 @@ class TodoStore {
 
     foundTodo.title = this._todo.title;
     foundTodo.date = this._todo.date;
+    this._todo = {};
 
     // 업데이트 되면 input 폼의 밸류를 제거해주는 것을 추가해야할듯
   }
