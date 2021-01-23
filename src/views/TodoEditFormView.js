@@ -1,6 +1,6 @@
 import 'date-fns';
 import React, { PureComponent } from 'react';
-import { TextField, Grid, Button, Box } from '@material-ui/core';
+import { TextField, Grid, Button } from '@material-ui/core';
 import SaveIcon from '@material-ui/icons/Save';
 import DeleteIcon from '@material-ui/icons/Delete';
 import UpdateIcon from '@material-ui/icons/Update';
@@ -9,36 +9,58 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
-import TodoStore from '../stores/TodoStore';
 import { observer } from 'mobx-react';
 
 @observer
 class TodoEditFormView extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.testRef = React.createRef();
+    this.handleKeyDown = this.handleKeyDown.bind(this);
+  }
+  handleKeyDown(event) {
+    if (event.which === 13) {
+      console.log(this.testRef);
+      this.testRef.current.focus();
+      this.props.onAddTodo();
+    }
+  }
+
   render() {
-    const { todo, onSetTodoProps, onAddTodo, onUpdateTodo } = this.props;
+    const {
+      todo,
+      onSetTodoProps,
+      onAddTodo,
+      onUpdateTodo,
+      onRemoveTodo,
+    } = this.props;
 
     return (
       <form noValidate>
         <Grid container xs={12} spacing={3}>
-          <Grid item xs={3}>
+          <Grid item={true} xs={3}>
             <TextField
+              inputRef={this.testRef}
+              autoFocus={true}
               margin='normal'
               id='outlined-basic'
               label='Title'
               variant='standard'
-              value={todo && todo.title ? todo.title : ''}
+              value={todo?.title ? todo.title : ''}
+              onKeyDown={this.handleKeyDown}
               onChange={event => onSetTodoProps('title', event.target.value)}
             />
           </Grid>
-          <Grid item xs={3}>
+          <Grid item={true} xs={3}>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDatePicker
                 margin='normal'
                 id='date-picker-dialog'
                 label='Date'
                 format='yyyy-MM-dd'
+                onKeyDown={this.handleKeyDown}
                 value={todo && todo.date ? todo.date : null}
-                onChange={date => onSetTodoProps('date', date.valueOf())}
+                onChange={date => onSetTodoProps('date', date?.valueOf())}
                 KeyboardButtonProps={{
                   'aria-label': 'change date',
                 }}
@@ -69,6 +91,7 @@ class TodoEditFormView extends PureComponent {
             variant='contained'
             color='secondary'
             startIcon={<DeleteIcon />}
+            onClick={onRemoveTodo}
           >
             Delete
           </Button>
@@ -78,5 +101,4 @@ class TodoEditFormView extends PureComponent {
     );
   }
 }
-
 export default TodoEditFormView;

@@ -11,12 +11,26 @@ class TodoListContainer extends Component {
   }
 
   render() {
-    const { todos } = this.props.todoStore;
-    // console.log(1, todoStore.todos); //array
-
+    const { todos, _searchText } = this.props.todoStore;
+    console.log(todos, _searchText);
+    let searchTodos = [];
+    if (_searchText) {
+      searchTodos = todos.filter(
+        todo =>
+          todo?.title.toLowerCase().includes(_searchText.toLowerCase()) ===
+          true,
+      );
+    }
     return (
       <div>
-        <TodoListView todos={todos} onSelectedTodo={this.onSelectedTodo} />
+        {_searchText ? (
+          <TodoListView
+            todos={searchTodos}
+            onSelectedTodo={this.onSelectedTodo}
+          />
+        ) : (
+          <TodoListView todos={todos} onSelectedTodo={this.onSelectedTodo} />
+        )}
       </div>
     );
   }

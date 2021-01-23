@@ -20,6 +20,9 @@ class TodoEditFormContainer extends Component {
   onUpdateTodo() {
     this.props.todoStore.updateTodo();
   }
+  onRemoveTodo() {
+    this.props.todoStore.removeTodo();
+  }
 
   render() {
     const { todoStore } = this.props;
@@ -30,6 +33,7 @@ class TodoEditFormContainer extends Component {
         onSetTodoProps={this.onSetTodoProps}
         onAddTodo={this.onAddTodo}
         onUpdateTodo={this.onUpdateTodo}
+        onRemoveTodo={this.onRemoveTodo}
       />
     );
   }
